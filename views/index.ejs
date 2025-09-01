@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Hệ thống Server Status</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>📢 Thông báo cập nhật hệ thống</h1>
+    <p class="last-update">⏰ Cập nhật lần cuối: <%= new Date().toLocaleString("vi-VN") %></p>
+    <hr>
+    <h2>📊 Tình trạng dịch vụ</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Dịch vụ</th>
+          <th>Trạng thái</th>
+          <th>Địa chỉ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% monitors.forEach(m => { %>
+          <tr>
+            <td><%= m.friendly_name %></td>
+            <td class="<%= m.status === 2 ? 'up' : 'down' %>">
+              <%= m.status === 2 ? "🟢 Hoạt động bình thường" : "🔴 Ngừng hoạt động" %>
+            </td>
+            <td>
+            <span class="server-address"><%= m.url.replace(/^https?:\/\//,'') %>:<%= m.port || '' %></span>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <p class="powered" style="font-style: italic;">
+  Powered by UptimeRobot – NodeJS  
+</p>
+  </div>
+</body>
+</html>
